@@ -13,6 +13,7 @@ public class Menu : MonoBehaviour
     float theta = 0;
     int moving = 0;
     float duration = 0.5f;
+    public Vector3 player_position;
 
 
     // Start is called before the first frame update
@@ -27,7 +28,7 @@ public class Menu : MonoBehaviour
 
         for (int i = 0; i < num; i++)
         {
-            menu_items.Add(Instantiate(menu_empty, new Vector3(Mathf.Sin(theta * i), Mathf.Cos(theta * i), 0.0f), Quaternion.identity));
+            menu_items.Add(Instantiate(menu_empty, new Vector3(Mathf.Sin(theta * i)+player_position.x, Mathf.Cos(theta * i)+player_position.y, -3.0f), Quaternion.identity));
             
         }
         
@@ -58,6 +59,14 @@ public class Menu : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        for (int i = 0; i < num; i++)
+        {
+            Destroy(menu_items[i]);
+        }
+    }
+
     void PlayMoveTween()
     {
 
@@ -65,7 +74,7 @@ public class Menu : MonoBehaviour
         {
             Transform rect = menu_items[i].transform;
             
-            Tween t = rect.DOMove(new Vector3(Mathf.Sin(theta * (i + select_index)), Mathf.Cos(theta * (i + select_index)), 0f), duration
+            Tween t = rect.DOMove(new Vector3(Mathf.Sin(theta * (i + select_index))+player_position.x, Mathf.Cos(theta * (i + select_index))+player_position.y, -3f), duration
             ).OnComplete(()=> {
                 moving = 0;
             });

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    Vector3 MOVE_X = new Vector3(1.0f, 0, 0);
-    Vector3 MOVE_Y = new Vector3(0, 1.0f, 0);
+	public Main main;
+    Vector3 MOVE_X = new Vector3(Main.CELL_SIZE, 0, 0);
+    Vector3 MOVE_Y = new Vector3(0, Main.CELL_SIZE, 0);
 
     float steps = 2.5f;
     Vector3 target;
@@ -18,16 +19,22 @@ public class Player : MonoBehaviour
     {
         target = transform.position;
 		animator = GetComponent<Animator>();
-        
-    }
+		
+		
+	}
 
     // Update is called once per frame
     void Update()
     {
-        if(transform.position == target) {
-            SetTargetPosition();
-        }
-        Move();
+        if (!main.isMenu())
+        {
+			if (transform.position == target)
+			{
+				SetTargetPosition();
+			}
+			Move();
+		}
+        
     }
 
     void SetTargetPosition(){
